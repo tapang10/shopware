@@ -1,0 +1,31 @@
+{% sw_extends '@Storefront/storefront/page/checkout/minimal-offcanvas-cart.html.twig' %}
+
+{% block minimal_offcanvas_cart %}
+    <div class="minimal-offcanvas-cart">
+        {% if cart.lineItems|length > 0 %}
+            {% set lastItem = cart.lineItems[cart.lineItems|length - 1] %}
+            <h2>Last Added Item</h2>
+            <p>{{ lastItem.label }}</p>
+            <p>Price: {{ lastItem.price|currency }}</p>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+
+        {# Display Cross-Selling Products #}
+        {% if crossSellingProducts is not empty %}
+            <div class="cross-selling">
+                <h3>Related Products</h3>
+                <ul>
+                    {% for product in crossSellingProducts %}
+                        <li>
+                            <img src="{{ product.cover.media.url }}" alt="{{ product.translated.name }}">
+                            <h4>{{ product.translated.name }}</h4>
+                            <p>{{ product.price | currency }}</p>
+                            <button class="add-to-cart-button" data-product-id="{{ product.id }}">Add to Cart</button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
